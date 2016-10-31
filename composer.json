@@ -19,7 +19,7 @@
         "wiki": "http://falk-m.de/"
     },
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5.0",
         "zendframework/zend-diactoros": "~1.3",
         "pimple/pimple": "~3.0",
         "monolog/monolog": "~1.21",
