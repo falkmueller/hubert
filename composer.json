@@ -1,0 +1,35 @@
+{
+    "name": "falkm/hubert",
+    "type": "library",
+    "description": "Hubert is a php micro framework with MVC support",
+    "keywords": [
+        "php",
+        "framework"
+    ],
+    "homepage": "http://falk-m.de/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Falk Müller",
+            "email": "git@falk-m.de"
+        }
+    ],
+    "support": {
+        "email": "git@falk-m.de",
+        "wiki": "http://falk-m.de/"
+    },
+    "require": {
+        "php": ">=5.4.0",
+        "zendframework/zend-diactoros": "~1.3",
+        "pimple/pimple": "~3.0",
+        "monolog/monolog": "~1.21",
+        "league/plates": "3.*",
+        "altorouter/altorouter": "~1.2",
+        "zendframework/zend-eventmanager": "~3.0",
+        "zendframework/zend-session": "~2.0",
+        "zendframework/zend-db": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {"hubert\\": "src" }
+    }
+}
