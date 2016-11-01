@@ -9,7 +9,7 @@ Hubert is a PHP micro framework that's fast, easy to use and easy to extend.
 
 ## Installation
 
-Plates is available via Composer:
+Hubert is available via Composer:
 
 ```json
 {
