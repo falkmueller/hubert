@@ -19,6 +19,36 @@ Hubert is available via Composer:
 }
 ```
 
+## Usage
+
+Create an index.php file with the following contents:
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$app = new hubert\app();
+
+$config = array(
+    "config" => array(
+        "display_errors" => true,
+        "routes" => array(
+            "home" => array(
+                "route" => "/", 
+                "method" => "GET|POST", 
+                "target" => function($request, $response, $args){
+                    echo "Hello World";
+                }
+            )
+        )
+    )
+);
+
+$app->loadConfig($config);
+$app->emit($app->run());
+```
+
 ### components
 
 - PSR-7 implementation: [zendframework/zend-diactoros](https://zendframework.github.io/zend-diactoros/)
