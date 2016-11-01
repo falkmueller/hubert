@@ -2,7 +2,7 @@ Hubert
 ======
 
 [![Author](https://img.shields.io/badge/author-falkm-blue.svg?style=flat-square)](https://falk-m.de)
-[![Source Code](http://img.shields.io/badge/source-league/plates-blue.svg?style=flat-square)](https://github.com/falkmueller/hubert)
+[![Source Code](http://img.shields.io/badge/source-falkmueller/hubert-blue.svg?style=flat-square)](https://github.com/falkmueller/hubert)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
 Hubert is a PHP micro framework that's fast, easy to use and easy to extend.
