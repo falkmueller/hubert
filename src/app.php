@@ -43,23 +43,33 @@ class app {
         });
     }
     
-    public function loadContainer($path, $cachedConfigFile = null){
+    public function loadConfig($path_or_array = null, $cachedConfigFile = null){
         $container = $this->getContainer();
         
         $config = [];
-        
+
         if ($cachedConfigFile && is_file($cachedConfigFile)) {
             // Try to load the cached config
             $config = include $cachedConfigFile;
-        } else {
-            // Load container from files path
-            foreach (util\file::glob($path.'{{,*.}default,{,*.}global,{,*.}local}.php') as $file) {
-                $config = util\array_util::merge($config, include $file);
+        } elseif($path_or_array) {
+            $config = require __dir__.'/config.standard.php';
+            
+            if(is_string($path_or_array)){
+                // Load container from files path
+                foreach (util\file::glob($path_or_array.'{{,*.}default,{,*.}global,{,*.}local}.php') as $file) {
+                    $config = util\array_util::merge($config, include $file, true);
+                }
             }
+            elseif(is_array($path_or_array)){
+                $config = util\array_util::merge($config, $path_or_array, true);
+            }
+            
 
             if ($cachedConfigFile) {
                 file_put_contents($cachedConfigFile, '<?php return ' . var_export($config, true) . ';');
             }
+        } else {
+            $config = require __dir__.'/config.standard.php';
         }
         
         foreach ($config['factories'] as $name => $object) {
@@ -76,6 +86,10 @@ class app {
 
     public function run(){
         try {
+            if(!isset($this->_container["config"])){
+                $this->loadConfig();
+            }
+            
             $bootstrap = null;
             if(isset($this->_container["config"]["bootstrap"])){
                 $bootstrap = new $this->_container["config"]["bootstrap"]();

@@ -52,7 +52,7 @@ class router {
             $controller = (!empty($params["controller"]) ? $params["controller"] : (!empty($target["controller"]) ? $target["controller"] : "index"));
             $action = (!empty($params["action"]) ? $params["action"] : (!empty($target["action"]) ? $target["action"] : "index"));
 
-            $controller_namespace = $container["config"]["controller_namespace"];
+            $controller_namespace = isset($container["config"]["controller_namespace"]) ? $container["config"]["controller_namespace"] : "";
             $classname = $controller_namespace."\\{$controller}Controller";
 
              if(!class_exists($classname)){
