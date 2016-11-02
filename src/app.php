@@ -92,20 +92,33 @@ class app {
             
             $bootstrap = null;
             if(isset($this->_container["config"]["bootstrap"])){
-                $bootstrap = new $this->_container["config"]["bootstrap"]();
-                if(method_exists($bootstrap,"setContainer")){
-                    call_user_func(array($bootstrap, "setContainer"), $this->_container);
+                $bootstraps = array();
+                if(is_array($this->_container["config"]["bootstrap"])){
+                    foreach ($this->_container["config"]["bootstrap"] as $bootstrap){
+                        $bootstraps[] = new $bootstrap();
+                    }
+                } else {
+                    $bootstraps[] = new $this->_container["config"]["bootstrap"]();
                 }
                 
-                if(method_exists($bootstrap,"preDispatch")){
-                    call_user_func(array($bootstrap, "preDispatch"));
-                }
+                foreach ($bootstraps as $bootstrap){
+                    if(method_exists($bootstrap,"setContainer")){
+                        call_user_func(array($bootstrap, "setContainer"), $this->_container);
+                    }
+
+                    if(method_exists($bootstrap,"preDispatch")){
+                        call_user_func(array($bootstrap, "preDispatch"));
+                    }
+                }  
             }
             
             $response = $this->_container["dispatch"]();
-            if($bootstrap && method_exists($bootstrap,"postDispatch")){
-                call_user_func(array($bootstrap, "postDispatch"), $response);
-            }
+            
+            foreach ($bootstraps as $bootstrap){
+                if($bootstrap && method_exists($bootstrap,"postDispatch")){
+                    call_user_func(array($bootstrap, "postDispatch"), $response);
+                }
+            } 
             
             return $response;
         } catch (\Exception $exc) {
