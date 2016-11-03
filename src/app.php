@@ -90,9 +90,8 @@ class app {
                 $this->loadConfig();
             }
             
-            $bootstrap = null;
+            $bootstraps = array();
             if(isset($this->_container["config"]["bootstrap"])){
-                $bootstraps = array();
                 if(is_array($this->_container["config"]["bootstrap"])){
                     foreach ($this->_container["config"]["bootstrap"] as $bootstrap){
                         $bootstraps[] = new $bootstrap();

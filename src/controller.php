@@ -65,10 +65,14 @@ class controller {
      */
     protected function responseTemplate($template, $data = array()){
         
+        if(!isset($this->_container["template"])){
+            throw new \Exception("no template engine installed");
+        }
         $html = $this->_container["template"]->render($template, $data);
         $this->_response->getBody()->write($html);
         
         return $this->_response;
+        
     }
     
 }
