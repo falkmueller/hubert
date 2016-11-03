@@ -7,8 +7,9 @@ require_once '../vendor/autoload.php';
 $app = new hubert\app();
 $config = array(
     "config" => array(
-        "display_errors" => true,
-        "routes" => array(
+        "display_errors" => true, 
+    ),
+    "routes" => array(
             "home" => array(
                 "route" => "/", 
                 "method" => "GET|POST", 
@@ -17,7 +18,6 @@ $config = array(
                 }
             )
         )
-    )
 );
 $app->loadConfig($config);
 //run and emit app
