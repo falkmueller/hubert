@@ -11,7 +11,11 @@ class controller {
         $this->_container = $container;
     }
     
-    public function setResponse($response){
+    protected function getContainer(){
+        return $this->_container;
+    }
+
+        public function setResponse($response){
         $this->_response = $response;
     }
     
