@@ -24,6 +24,13 @@
         "pimple/pimple": "~3.0",
         "altorouter/altorouter": "~1.2"
     },
+    "require-dev": {
+        "falkm/hubert-db": "1.*",
+        "falkm/hubert-event": "1.*",
+        "falkm/hubert-logger": "1.*",
+        "falkm/hubert-session": "1.*",
+        "falkm/hubert-template": "1.*"
+    },
     "autoload": {
         "psr-4": {"hubert\\": "src" }
     }
