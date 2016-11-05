@@ -38,43 +38,65 @@ class router {
             $current_route = $container["router"]->match($container["request"]->getUri()->getPath(),$container["request"]->getMethod());
             $container["current_route"] = $current_route;
             
-            if(!is_array($current_route)){
-                return $container["notFoundHandler"]($response);
+            if(isset($container["preDispatch"])){
+                $predispatch_result = $container["preDispatch"]();
+                if($predispatch_result && ($predispatch_result instanceof \Zend\Diactoros\Response)){
+                    return $predispatch_result;
+                }
             }
-             
-            if(is_callable($current_route["target"])){
-                return $current_route["target"]($container["request"], $response, $current_route["params"]);
-            }
-
-            $target = $current_route["target"];
-            $params = $current_route["params"];
             
-            $controller = (!empty($params["controller"]) ? $params["controller"] : (!empty($target["controller"]) ? $target["controller"] : "index"));
-            $action = (!empty($params["action"]) ? $params["action"] : (!empty($target["action"]) ? $target["action"] : "index"));
-
-            $controller_namespace = isset($container["config"]["controller_namespace"]) ? $container["config"]["controller_namespace"] : "";
-            $classname = $controller_namespace."\\{$controller}Controller";
-
-             if(!class_exists($classname)){
-                 throw new \Exception("class {$classname} not exists");
-             }
-
-             $myclass = new $classname();
-             if(method_exists($myclass,"setContainer")){
-                 call_user_func(array($myclass, "setContainer"), $container);
-             }
+            $result = null;
+            
+            if(!is_array($current_route)){
+                $result = $container["notFoundHandler"]($response);
+            }
              
-             if(method_exists($myclass,"setResponse")){
-                 call_user_func(array($myclass, "setResponse"), $response);
-             }
+            elseif (is_callable($current_route["target"])){
+                $result = $current_route["target"]($container["request"], $response, $current_route["params"]);
+            } else {
 
-             $action_name = $action."Action";
+                $target = $current_route["target"];
+                $params = $current_route["params"];
 
-             if(!method_exists($myclass,$action_name)){
-                 throw new \Exception("methode {$action_name} in class {$classname} not exists");
-             }
+                $controller = (!empty($params["controller"]) ? $params["controller"] : (!empty($target["controller"]) ? $target["controller"] : "index"));
+                $action = (!empty($params["action"]) ? $params["action"] : (!empty($target["action"]) ? $target["action"] : "index"));
 
-             return call_user_func_array(array($myclass, $action_name), array($params) ); 
+               
+                
+                $controller_namespace =  (!empty($target["namespace"]) ? $target["namespace"] : (isset($container["config"]["controller_namespace"]) ?  $container["config"]["controller_namespace"] : ""));
+                $classname = $controller_namespace."\\{$controller}Controller";
+
+                 if(!class_exists($classname)){
+                     throw new \Exception("class {$classname} not exists");
+                 }
+
+                 $myclass = new $classname();
+                 if(method_exists($myclass,"setContainer")){
+                     call_user_func(array($myclass, "setContainer"), $container);
+                 }
+
+                 if(method_exists($myclass,"setResponse")){
+                     call_user_func(array($myclass, "setResponse"), $response);
+                 }
+
+                 $action_name = $action."Action";
+
+                 if(!method_exists($myclass,$action_name)){
+                     throw new \Exception("methode {$action_name} in class {$classname} not exists");
+                 }
+
+                 $result = call_user_func_array(array($myclass, $action_name), array($params) ); 
+            }
+            
+            if(isset($container["postDispatch"])){
+                $postdispatch_result = $container["predispatch"]($result);
+                if($postdispatch_result  && ($postdispatch_result instanceof \Zend\Diactoros\Response)){
+                    $result = $postdispatch_result;
+                }
+            }
+            
+            return $result;
+            
         };
     }
 }

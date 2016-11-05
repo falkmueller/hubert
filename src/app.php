@@ -105,8 +105,8 @@ class app {
                         call_user_func(array($bootstrap, "setContainer"), $this->_container);
                     }
 
-                    if(method_exists($bootstrap,"preDispatch")){
-                        call_user_func(array($bootstrap, "preDispatch"));
+                    if(method_exists($bootstrap,"init")){
+                        call_user_func(array($bootstrap, "init"));
                     }
                 }  
             }
