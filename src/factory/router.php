@@ -81,11 +81,15 @@ class router {
 
                  $action_name = $action."Action";
 
-                 if(!method_exists($myclass,$action_name)){
-                     throw new \Exception("methode {$action_name} in class {$classname} not exists");
+                 if(method_exists($myclass,"dispatch")){
+                     $result = call_user_func_array(array($myclass, "dispatch"),  array($params));
                  }
-
-                 $result = call_user_func_array(array($myclass, $action_name), array($params) ); 
+                 elseif(!method_exists($myclass,$action_name)){
+                     throw new \Exception("methode {$action_name} in class {$classname} not exists");
+                 } else {
+                     $result = call_user_func_array(array($myclass, $action_name), array($params) );
+                 }
+                  
             }
             
             if(isset($container["postDispatch"])){
