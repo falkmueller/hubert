@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controller;
+namespace src\controller;
 
 class indexController extends \hubert\controller {
     

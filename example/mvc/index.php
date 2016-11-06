@@ -6,7 +6,7 @@ require_once '../../vendor/autoload.php';
 
 //init app
 $app = new hubert\app();
-$app->registerNamespace("app", __dir__."/app/");
+$app->registerNamespace("src", __dir__."/src/");
 $app->loadConfig(__dir__.'/config/');
 //to cache the configuration
 //$app->loadContainer(__dir__.'/config/', __dir__.'/data/cache/config_cache.php');

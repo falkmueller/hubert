@@ -1,6 +1,6 @@
 <?php
 
-namespace app;
+namespace src;
 
 class bootstrap extends \hubert\bootstrap{
     

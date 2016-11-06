@@ -7,7 +7,7 @@ return array(
     
     "config" => array(
         "template" => array(
-           "path" => dirname(__dir__).'/app/templates',
+           "path" => dirname(__dir__).'/src/templates',
            "fileExtension" => "phtml",
            "extensions" => array(
                hubert\extension\template\urlExtension::class

@@ -1,8 +1,8 @@
 <?php
 return array( 
    "config" => array(
-       "bootstrap" => app\bootstrap::class,
-       "controller_namespace" => "app\\controller",
+       "bootstrap" => src\bootstrap::class,
+       "controller_namespace" => "src\\controller",
        "display_errors" => true, 
     ),
 );

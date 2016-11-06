@@ -1,6 +1,6 @@
 <?php
 
-namespace app\model;
+namespace src\model;
 
 class user {
     public $id;
