@@ -1,12 +1,13 @@
 <?php
 
-namespace hubert;
+namespace hubert\generic;
 
-class controller {
+abstract class controller implements \hubert\interfaces\controller {
     
     protected $_container;
     protected $_response;
-    
+
+
     public function setContainer($container){
         $this->_container = $container;
     }
@@ -15,10 +16,25 @@ class controller {
         return $this->_container;
     }
 
-        public function setResponse($response){
+    public function setResponse($response){
         $this->_response = $response;
     }
     
+    protected function getRequest(){
+        return $this->_container["request"];
+    }
+    
+    public function dispatch($action, $params){
+        $action_name = $action."Action";
+        
+        if(!method_exists($this,$action_name)){
+            $classname = get_class($this);
+            throw new \Exception("methode {$action_name} in controller {$classname} not exists");
+        }
+        
+        return $this->$action_name($params);
+    }
+
     /**
      * set redirekt url in response
      * @param string $url

@@ -2,7 +2,7 @@
 
 namespace src\controller;
 
-class indexController extends \hubert\controller {
+class indexController extends \hubert\generic\controller {
     
     public function indexAction($params){
         return $this->responseTemplate("index/index", ["name" => "Hubert"]);

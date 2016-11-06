@@ -95,7 +95,7 @@ class app {
                 if(is_array($this->_container["config"]["bootstrap"])){
                     foreach ($this->_container["config"]["bootstrap"] as $bootstrap_name){
                         $bootstrap = new $bootstrap_name();
-                        if($bootstrap instanceof bootstrap){
+                        if($bootstrap instanceof interfaces\bootstrap){
                             $bootstrap->setContainer($this->_container);
                             $bootstrap->init();
                             $bootstraps[] = $bootstrap;
@@ -103,7 +103,7 @@ class app {
                     }
                 } else {
                     $bootstrap = new $this->_container["config"]["bootstrap"]();
-                    if($bootstrap instanceof bootstrap){
+                    if($bootstrap instanceof interfaces\bootstrap){
                         $bootstrap->setContainer($this->_container);
                         $bootstrap->init();
                         $bootstraps[] = $bootstrap;

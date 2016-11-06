@@ -61,7 +61,6 @@ class router {
                 $controller = (!empty($params["controller"]) ? $params["controller"] : (!empty($target["controller"]) ? $target["controller"] : "index"));
                 $action = (!empty($params["action"]) ? $params["action"] : (!empty($target["action"]) ? $target["action"] : "index"));
 
-               
                 
                 $controller_namespace =  (!empty($target["namespace"]) ? $target["namespace"] : (isset($container["config"]["controller_namespace"]) ?  $container["config"]["controller_namespace"] : ""));
                 $classname = $controller_namespace."\\{$controller}Controller";
@@ -70,26 +69,15 @@ class router {
                      throw new \Exception("class {$classname} not exists");
                  }
 
-                 $myclass = new $classname();
-                 if(method_exists($myclass,"setContainer")){
-                     call_user_func(array($myclass, "setContainer"), $container);
+                 $ControllerInstance = new $classname();
+                 
+                 if(!($ControllerInstance instanceof \hubert\interfaces\controller)){
+                     throw new \Exception("controller class {$classname} not implements the controller-interface");
                  }
-
-                 if(method_exists($myclass,"setResponse")){
-                     call_user_func(array($myclass, "setResponse"), $response);
-                 }
-
-                 $action_name = $action."Action";
-
-                 if(method_exists($myclass,"dispatch")){
-                     $result = call_user_func_array(array($myclass, "dispatch"),  array($params));
-                 }
-                 elseif(!method_exists($myclass,$action_name)){
-                     throw new \Exception("methode {$action_name} in class {$classname} not exists");
-                 } else {
-                     $result = call_user_func_array(array($myclass, $action_name), array($params) );
-                 }
-                  
+                 
+                 $ControllerInstance->setContainer($container);
+                 $ControllerInstance->setResponse($response);
+                 $result = $ControllerInstance->dispatch($action, $params);
             }
             
             if(isset($container["postDispatch"])){

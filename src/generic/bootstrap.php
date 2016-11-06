@@ -1,8 +1,8 @@
 <?php
 
-namespace hubert;
+namespace hubert\generic;
 
-class bootstrap {
+abstract class bootstrap implements \hubert\interfaces\bootstrap {
     protected $_container;
     
     public function setContainer($container){
