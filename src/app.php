@@ -93,30 +93,28 @@ class app {
             $bootstraps = array();
             if(isset($this->_container["config"]["bootstrap"])){
                 if(is_array($this->_container["config"]["bootstrap"])){
-                    foreach ($this->_container["config"]["bootstrap"] as $bootstrap){
-                        $bootstraps[] = new $bootstrap();
+                    foreach ($this->_container["config"]["bootstrap"] as $bootstrap_name){
+                        $bootstrap = new $bootstrap_name();
+                        if($bootstrap instanceof bootstrap){
+                            $bootstrap->setContainer($this->_container);
+                            $bootstrap->init();
+                            $bootstraps[] = $bootstrap;
+                        }
                     }
                 } else {
-                    $bootstraps[] = new $this->_container["config"]["bootstrap"]();
-                }
-                
-                foreach ($bootstraps as $bootstrap){
-                    if(method_exists($bootstrap,"setContainer")){
-                        call_user_func(array($bootstrap, "setContainer"), $this->_container);
+                    $bootstrap = new $this->_container["config"]["bootstrap"]();
+                    if($bootstrap instanceof bootstrap){
+                        $bootstrap->setContainer($this->_container);
+                        $bootstrap->init();
+                        $bootstraps[] = $bootstrap;
                     }
-
-                    if(method_exists($bootstrap,"init")){
-                        call_user_func(array($bootstrap, "init"));
-                    }
-                }  
+                } 
             }
             
             $response = $this->_container["dispatch"]();
             
             foreach ($bootstraps as $bootstrap){
-                if($bootstrap && method_exists($bootstrap,"postDispatch")){
-                    call_user_func(array($bootstrap, "postDispatch"), $response);
-                }
+                $bootstrap->postDispatch($response);
             } 
             
             return $response;

@@ -9,7 +9,7 @@ class bootstrap {
         $this->_container = $container;
     }
     
-    public function preDispatch(){
+    public function init(){
         
     }
     
