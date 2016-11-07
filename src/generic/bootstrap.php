@@ -9,6 +9,10 @@ abstract class bootstrap implements \hubert\interfaces\bootstrap {
         $this->_container = $container;
     }
     
+    protected function getContainer(){
+        return $this->_container;
+    }
+    
     public function init(){
         
     }
