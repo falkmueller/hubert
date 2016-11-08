@@ -16,7 +16,15 @@ $config = array(
                 "target" => function($request, $response, $args){
                     echo "Hello World";
                 }
-            )
+            ),
+            "test" => array(
+                "route" => "/[:controller][/]?", 
+                "target" => function($request, $response, $args) use ($app){
+                    echo "Route with param and optionan trilling slash";
+                    $container = $app->getContainer();
+                    echo $container["router"]->get("test", array("controller" => "ss", "action" => "aaa"));
+                }
+            ),
         )
 );
 $app->loadConfig($config);
