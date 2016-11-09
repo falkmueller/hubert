@@ -12,4 +12,15 @@ class container extends \Pimple\Container {
         return $this->offsetSet($name, $value);
     }
     
+    public function __call($method, $args)
+    {
+        if ($this->offsetExists($method)) {
+            $obj = $this->offsetGet($method);
+            if (is_callable($obj)) {
+                return call_user_func_array($obj, $args);
+            }
+        }
+        throw new \BadMethodCallException("Method $method is not a valid method");
+    }
+    
 }
