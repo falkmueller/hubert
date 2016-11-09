@@ -9,7 +9,7 @@ class app {
     private $_container;
     
     public function __construct(){
-        $this->_container = new Container();
+        $this->_container = new service\container();
     }
     
     public function getContainer(){

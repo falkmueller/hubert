@@ -21,8 +21,8 @@ $config = array(
                 "route" => "/[:controller][/]?", 
                 "target" => function($request, $response, $args) use ($app){
                     echo "Route with param and optionan trilling slash";
-                    $container = $app->getContainer();
-                    echo $container["router"]->get("test", array("controller" => "ss", "action" => "aaa"));
+                    $router = $app->getContainer()->router;
+                    echo $router->get("test", array("controller" => "ss", "action" => "aaa"));
                 }
             ),
         )
