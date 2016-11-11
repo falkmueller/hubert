@@ -8,7 +8,7 @@ class errorHandling {
             if(isset($container["logger"])){
                 $container["logger"]->error("Code: {$e->getCode()}; Message: {$e->getMessage()}; file: {$e->getFile()}, line: {$e->getLine()}");
             }
-            if(!empty($container["config"]["display_errors"])){
+            if(!empty(hubert()->config()->display_errors)){
                 echo "Exception: "."Code: {$e->getCode()}; Message: {$e->getMessage()}; file: {$e->getFile()}, line: {$e->getLine()}";
             }
 

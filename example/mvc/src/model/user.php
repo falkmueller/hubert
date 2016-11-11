@@ -2,14 +2,14 @@
 
 namespace src\model;
 
-class user {
-    public $id;
-    public $name;
+class user extends \hubert\extension\db\model {
     
-    
-    public function exchangeArray(array $data)
-    {
-        $this->id     = !empty($data['id']) ? $data['id'] : null;
-        $this->name = !empty($data['name']) ? $data['name'] : null;
+     protected static $table = "users";
+     
+     public static function fields(){
+        return array(
+            "id" => array('type' => 'integer', 'primary' => true, 'autoincrement' => true),
+            "name" => array('type' => 'string', "default" => ""),
+        );
     }
 }

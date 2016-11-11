@@ -45,8 +45,8 @@ $config = array(
     )
 );
 
-$app->loadConfig($config);
-$app->emit($app->run());
+hubert($config);
+hubert()->emit(hubert()->run());
 ```
 
 ### components

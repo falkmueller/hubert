@@ -9,8 +9,7 @@ class indexController extends \hubert\generic\controller {
     }
     
     public function dbAction(){
-        $userTable = new \app\model\table\user($this->getContainer());
-        $users = $userTable->fetchAll();
+        $users = \src\model\user::selectAll();
         
         return $this->responseTemplate("index/db", ["users" => $users]);
     }

@@ -53,7 +53,7 @@ class router {
                 $action = (!empty($params["action"]) ? $params["action"] : (!empty($target["action"]) ? $target["action"] : "index"));
 
                 
-                $controller_namespace =  (!empty($target["namespace"]) ? $target["namespace"] : (isset($container["config"]["controller_namespace"]) ?  $container["config"]["controller_namespace"] : ""));
+                $controller_namespace =  (!empty($target["namespace"]) ? $target["namespace"] : (isset(hubert()->config()->controller_namespace) ?  hubert()->config()->controller_namespace : ""));
                 $classname = $controller_namespace."\\{$controller}Controller";
 
                  if(!class_exists($classname)){
@@ -66,7 +66,6 @@ class router {
                      throw new \Exception("controller class {$classname} not implements the controller-interface");
                  }
                  
-                 $ControllerInstance->setContainer($container);
                  $ControllerInstance->setResponse($response);
                  $result = $ControllerInstance->dispatch($action, $params);
             }

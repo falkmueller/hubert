@@ -81,7 +81,7 @@ abstract class controller implements \hubert\interfaces\controller {
      */
     protected function responseTemplate($template, $data = array()){
         
-        if(!isset(hubert()->container()["template"])){
+        if(!isset(hubert()->container()->template)){
             throw new \Exception("no template engine installed");
         }
         $html = hubert()->container()->template->render($template, $data);
