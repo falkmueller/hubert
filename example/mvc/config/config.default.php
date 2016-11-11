@@ -5,4 +5,8 @@ return array(
        "controller_namespace" => "src\\controller",
        "display_errors" => true, 
     ),
+    
+    "namespace" => array(
+        "src" => dirname(__dir__)."/src/"
+    )
 );

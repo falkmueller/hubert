@@ -23,4 +23,8 @@ class container extends \Pimple\Container {
         throw new \BadMethodCallException("Method $method is not a valid method");
     }
     
+    public function __isset ($name){
+        return $this->offsetExists($name);
+    }
+    
 }

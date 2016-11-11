@@ -9,15 +9,6 @@ class router {
         $basePath = (dirname($ServerParams['SCRIPT_NAME']) != '/' ? dirname($ServerParams["SCRIPT_NAME"]): ''); 
         $router = new \hubert\service\router($basePath); 
         
-        if(isset($container["routes"])){
-            $routes = $container["routes"];
-            if(is_array($routes) && count($routes) > 0){
-                foreach ($routes as $route_name => $route){
-                    $router->add($route_name, $route["route"], $route["target"], (isset($route["method"]) ? $route["method"] : "GET|POST"));
-                }
-            }
-        }
-        
         return $router;
     }
     

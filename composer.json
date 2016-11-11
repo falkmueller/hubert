@@ -32,6 +32,7 @@
         "falkm/hubert-template": "1.*"
     },
     "autoload": {
-        "psr-4": {"hubert\\": "src" }
+        "psr-4": {"hubert\\": "src" },
+        "files": ["src/init.php"]
     }
 }

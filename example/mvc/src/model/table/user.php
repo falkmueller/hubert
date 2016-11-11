@@ -11,7 +11,7 @@ class user {
 
     public function __construct($container)
     {
-        $dbAdapter = $container["dbAdapter"];
+        $dbAdapter = hubert()->container()->dbAdapter;
         $resultSetPrototype = new ResultSet();
         $resultSetPrototype->setArrayObjectPrototype(new \app\model\user());
         $this->tableGateway = new TableGateway('users', $dbAdapter, null, $resultSetPrototype);
