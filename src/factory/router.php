@@ -26,7 +26,7 @@ class router {
     public static function getDispatch($container){
         return function() use ($container){
             $response = new \Zend\Diactoros\Response();
-            $current_route = $container["router"]->match($container["request"]->getUri()->getPath(),$container["request"]->getMethod());
+            $current_route = $container["router"]->match(urldecode($container["request"]->getUri()->getPath()),$container["request"]->getMethod());
             $container["current_route"] = $current_route;
             
             if(isset($container["preDispatch"])){

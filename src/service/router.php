@@ -14,7 +14,7 @@ class router extends \AltoRouter implements \hubert\interfaces\router {
         if(count($get_params) > 0){
             $url .= "?";
             $query_params = array();
-            foreach($params as $key => $value){
+            foreach($get_params as $key => $value){
                 $query_params[] = $key.'='.urlencode($value);
             }
 
