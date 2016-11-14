@@ -15,7 +15,7 @@ class core {
                 if(is_array(hubert()->config->bootstrap)){
                     foreach (hubert()->config->bootstrap as $bootstrap_name){
                         $bootstrap = new $bootstrap_name();
-                        if($bootstrap instanceof interfaces\bootstrap){
+                        if($bootstrap instanceof hubert\interfaces\bootstrap){
                             $bootstrap->init();
                             $bootstraps[] = $bootstrap;
                         }
@@ -23,7 +23,7 @@ class core {
                 } else {
                     $bootstrap = hubert()->config->bootstrap;
                     $bootstrap = new $bootstrap();
-                    if($bootstrap instanceof interfaces\bootstrap){
+                    if($bootstrap instanceof hubert\interfaces\bootstrap){
                         $bootstrap->init();
                         $bootstraps[] = $bootstrap;
                     }
