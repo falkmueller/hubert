@@ -6,7 +6,7 @@ class bootstrap extends \hubert\generic\bootstrap {
     
     public function init(){
         //set Shared Data vor all Templates
-        //$this->_container["template"]->addData(array("name" => "ronny"));
+        //$this->_template->addData(array("name" => "ronny"));
 
     }
     

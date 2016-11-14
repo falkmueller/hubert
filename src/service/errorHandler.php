@@ -10,7 +10,7 @@ class errorHandler {
     
     public function handleException(\Exception $e){
          if(isset(hubert()->logger)){
-            hubert()->logger->error("Code: {$e->getCode()}; Message: {$e->getMessage()}; file: {$e->getFile()}, line: {$e->getLine()}");
+            hubert()->logger->error("Code: {$e->getCode()}; Message: {$e->getMessage()}; file: {$e->getFile()}; Exception: {$e}, line: {$e->getLine()}");
         }
         if(!empty(hubert()->config()->display_errors)){
             echo "Exception: "."Code: {$e->getCode()}; Message: {$e->getMessage()}; file: {$e->getFile()}, line: {$e->getLine()}";

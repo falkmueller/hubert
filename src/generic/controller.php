@@ -17,7 +17,7 @@ abstract class controller implements \hubert\interfaces\controller {
 
 
     protected function getRequest(){
-        return hubert()->container()->request;
+        return hubert()->request;
     }
     
     public function dispatch($action, $params){
@@ -81,10 +81,10 @@ abstract class controller implements \hubert\interfaces\controller {
      */
     protected function responseTemplate($template, $data = array()){
         
-        if(!isset(hubert()->container()->template)){
+        if(!isset(hubert()->template)){
             throw new \Exception("no template engine installed");
         }
-        $html = hubert()->container()->template->render($template, $data);
+        $html = hubert()->template->render($template, $data);
         $this->_response->getBody()->write($html);
         
         return $this->_response;
