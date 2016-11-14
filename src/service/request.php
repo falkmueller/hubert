@@ -1,12 +1,11 @@
 <?php
 
-namespace hubert\factory;
+namespace hubert\service;
 
 use Zend\Diactoros\ServerRequestFactory;
 
 class request {
-    
-    public static function getRequest($container){
+    public static function factory($hubert){
         return ServerRequestFactory::fromGlobals(
             $_SERVER,
             $_GET,

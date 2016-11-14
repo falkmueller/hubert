@@ -4,6 +4,12 @@ namespace hubert\service;
 
 class router extends \AltoRouter implements \hubert\interfaces\router {
     
+    public static function factory($container){
+        $ServerParams = $container["request"]->getServerParams(); 
+        $basePath = (dirname($ServerParams['SCRIPT_NAME']) != '/' ? dirname($ServerParams["SCRIPT_NAME"]): ''); 
+        return new static($basePath); 
+    }
+    
     function __construct($basePath) {
         parent::__construct(array(),$basePath, array());
     }

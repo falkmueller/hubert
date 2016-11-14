@@ -20,9 +20,9 @@ $config = array(
             "test" => array(
                 "route" => "/[:controller][/]?", 
                 "target" => function($request, $response, $args){
-                    echo "Route with param and optionan trilling slash";
-                    $router = hubert()->container()->router;
-                    echo $router->get("test", array("controller" => "ss", "action" => "aaa"));
+                    echo "Route with param and optionan trilling slash: ";
+                    $router = hubert()->router;
+                    echo $router->get("test", array("controller" => $args["controller"]));
                 }
             ),
         )
@@ -32,4 +32,4 @@ $config = array(
 hubert($config);
 
 //run and emit app
-hubert()->emit(hubert()->run());
+hubert()->core()->run();

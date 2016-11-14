@@ -2,29 +2,39 @@
 
 namespace hubert;
 
-use Pimple\Container;
-
-class hubert {
-    
-    private $_container;
-    private $_config;
+class hubert extends \Pimple\Container {
     
     public function __construct($config_path_or_file_or_array = null, $config_cache_file = null){
-        $this->_container = new service\container();
+        parent::__construct();
         $this->loadConfig($config_path_or_file_or_array, $config_cache_file);
     }
     
-    public function container(){
-        return $this->_container;
+    public function __get($name){
+        return $this->offsetGet($name);
     }
     
-    public function config(){
-       return $this->_config; 
+    public function __set($name, $value){
+        return $this->offsetSet($name, $value);
     }
-
+    
+    public function __call($method, $args)
+    {
+        if ($this->offsetExists($method)) {
+            $obj = $this->offsetGet($method);
+            if (is_callable($obj)) {
+                return call_user_func_array($obj, $args);
+            }else {
+                return $obj;
+            }
+        }
+        throw new \BadMethodCallException("Method $method is not a valid method");
+    }
+    
+    public function __isset ($name){
+        return $this->offsetExists($name);
+    }
+    
     private function loadConfig($config_path_or_file_or_array = null, $config_cache_file = null){
-        $container = $this->container();
-        
         if($config_cache_file && is_file($config_cache_file)){
             $config = require $config_cache_file;
         } else {
@@ -57,7 +67,7 @@ class hubert {
 
         //load factories
         foreach ($config['factories'] as $name => $object) {
-            $container[$name] = function ($c) use ($object, $name) {
+            $this[$name] = function ($c) use ($object, $name) {
                 return $object($c, $name);
             };
         }
@@ -67,13 +77,13 @@ class hubert {
             $routes = $config["routes"];
             if(is_array($routes) && count($routes) > 0){
                 foreach ($routes as $route_name => $route){
-                    $container["router"]->add($route_name, $route["route"], $route["target"], (isset($route["method"]) ? $route["method"] : "GET|POST"));
+                    $this["router"]->add($route_name, $route["route"], $route["target"], (isset($route["method"]) ? $route["method"] : "GET|POST"));
                 }
             }
         }
         
         //set configuration
-        $this->_config = new service\config($config['config']);
+        $this["config"] = new service\config($config['config']);
     }
     
     private function registerNamespace($name, $base_dir){
@@ -102,53 +112,4 @@ class hubert {
             }
         });
     }
-
-    public function run(){
-        try {
-            if(!isset($this->_config)){
-                $this->loadConfig();
-            }
-            
-            $bootstraps = array();
-            if(isset($this->_config["bootstrap"])){
-                if(is_array($this->_config["bootstrap"])){
-                    foreach ($this->_config["bootstrap"] as $bootstrap_name){
-                        $bootstrap = new $bootstrap_name();
-                        if($bootstrap instanceof interfaces\bootstrap){
-                            $bootstrap->init();
-                            $bootstraps[] = $bootstrap;
-                        }
-                    }
-                } else {
-                    $bootstrap = new $this->_config["bootstrap"]();
-                    if($bootstrap instanceof interfaces\bootstrap){
-                        $bootstrap->init();
-                        $bootstraps[] = $bootstrap;
-                    }
-                } 
-            }
-            
-            $response = $this->_container["dispatch"]();
-            
-            foreach ($bootstraps as $bootstrap){
-                $bootstrap->postDispatch($response);
-            } 
-            
-            return $response;
-        } catch (\Exception $exc) {
-            $this->_container["exceptionHandler"]($exc);
-            exit();
-        }
-    }
-    
-    public function emit($response){
-        if($response && $response instanceof \Zend\Diactoros\Response){
-            $emitter = new \Zend\Diactoros\Response\SapiEmitter();
-            $emitter->emit($response);
-        } elseif (is_string($response)){
-            echo $response;
-        }   
-    }
-    
-    
 }

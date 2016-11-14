@@ -2,11 +2,11 @@
 
 return array(
      "factories" => array(
-        "request" => array(\hubert\factory\request::class, 'getRequest'),
-        "exceptionHandler" => array(\hubert\factory\errorHandling::class, 'getExceptionHandler'),
-        "router" => array(\hubert\factory\router::class, 'getRouter'),
-        "notFoundHandler" => array(\hubert\factory\router::class, 'getNotFoundHandler'),
-        "dispatch" => array(\hubert\factory\router::class, 'getDispatch')
+        "core" => array(\hubert\service\core::class, 'factory'),
+        "request" => array(\hubert\service\request::class, 'factory'),
+        "errorHandler" => array(\hubert\service\errorHandler::class, 'factory'),
+        "router" => array(\hubert\service\router::class, 'factory'),
+        "dispatch" => array(\hubert\service\dispatcher::class, 'factory')
          ),
     
      "config" => array(

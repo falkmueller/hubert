@@ -28,16 +28,10 @@ Create an index.php file with the following contents:
 
 require 'vendor/autoload.php';
 
-$app = new hubert\app();
-
 $config = array(
-    "config" => array(
-        "display_errors" => true,
-    ),
     "routes" => array(
         "home" => array(
             "route" => "/", 
-            "method" => "GET|POST", 
             "target" => function($request, $response, $args){
                 echo "Hello World";
             }
@@ -46,7 +40,7 @@ $config = array(
 );
 
 hubert($config);
-hubert()->emit(hubert()->run());
+hubert()->core()->run();
 ```
 
 ### components
