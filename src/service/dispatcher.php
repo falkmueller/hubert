@@ -9,27 +9,15 @@ class dispatcher {
     }
     
     public function __invoke(){
-        $container = hubert();
-        
         $response = new \Zend\Diactoros\Response();
-        $current_route = $container["router"]->match(urldecode($container["request"]->getUri()->getPath()),$container["request"]->getMethod());
-        $container["current_route"] = $current_route;
-
-        if(isset($container["preDispatch"])){
-            $predispatch_result = $container["preDispatch"]();
-            if($predispatch_result && ($predispatch_result instanceof \Zend\Diactoros\Response)){
-                return $predispatch_result;
-            }
-        }
-
-        $result = null;
+        $current_route = hubert()->current_route;
 
         if(!is_array($current_route)){
-            $result = hubert()->errorHandler->handleNotFound($response);
+            return hubert()->errorHandler->handleNotFound($response);
         }
 
         elseif (is_callable($current_route["target"])){
-            $result = $current_route["target"]($container["request"], $response, $current_route["params"]);
+            return $current_route["target"](hubert()->request, $response, $current_route["params"]);
         } else {
 
             $target = $current_route["target"];
@@ -53,17 +41,8 @@ class dispatcher {
              }
 
              $ControllerInstance->setResponse($response);
-             $result = $ControllerInstance->dispatch($action, $params);
+             return $ControllerInstance->dispatch($action, $params);
         }
-
-        if(isset($container["postDispatch"])){
-            $postdispatch_result = $container["predispatch"]($result);
-            if($postdispatch_result  && ($postdispatch_result instanceof \Zend\Diactoros\Response)){
-                $result = $postdispatch_result;
-            }
-        }
-
-        return $result;
     }
     
 }

@@ -8,6 +8,10 @@ abstract class bootstrap implements \hubert\interfaces\bootstrap {
         
     }
     
+    public function preDispatch(){
+        
+    }
+    
     public function postDispatch($response){
 
     }
