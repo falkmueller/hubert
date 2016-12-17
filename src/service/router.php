@@ -14,7 +14,7 @@ class router extends \AltoRouter implements \hubert\interfaces\router {
         parent::__construct(array(),$basePath, array());
     }
     
-    public function get($routeName, array $params = array(), array $get_params = array()) {
+    public function get($routeName, array $params = array(), array $get_params = array(), $withHost = false) {
         $url = parent::generate($routeName, $params);
         
         if(count($get_params) > 0){
@@ -25,6 +25,13 @@ class router extends \AltoRouter implements \hubert\interfaces\router {
             }
 
             $url .= implode("&", $query_params);
+        }
+        
+         
+        if ($withHost){
+            $request_uri = hubert()->request->getUri();
+                    
+            $url = $request_uri->getScheme().'://'.$request_uri->getHost().$url;
         }
         
         return $url;
