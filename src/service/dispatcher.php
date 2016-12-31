@@ -26,10 +26,14 @@ class dispatcher {
             $controller = (!empty($params["controller"]) ? $params["controller"] : (!empty($target["controller"]) ? $target["controller"] : "index"));
             $action = (!empty($params["action"]) ? $params["action"] : (!empty($target["action"]) ? $target["action"] : "index"));
 
-
             $controller_namespace =  (!empty($target["namespace"]) ? $target["namespace"] : (isset(hubert()->config()->controller_namespace) ?  hubert()->config()->controller_namespace : ""));
             $classname = $controller_namespace."\\{$controller}Controller";
 
+            //replace variables in ControlerNamespace
+            foreach ($target as $var => $value){
+                $classname = str_replace("[$var]", (!empty($params[$var]) ? $params[$var] : $value), $classname);
+            }
+            
              if(!class_exists($classname)){
                  throw new \Exception("class {$classname} not exists");
              }
