@@ -35,7 +35,7 @@ class dispatcher {
             }
             
              if(!class_exists($classname)){
-                 throw new \Exception("class {$classname} not exists");
+                 return hubert()->errorHandler->handleNotFound($response);
              }
 
              $ControllerInstance = new $classname();
