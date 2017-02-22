@@ -11,7 +11,7 @@ abstract class controller implements \hubert\interfaces\controller {
         $this->_response = $response;
     }
     
-    public function getResonse(){
+    public function getResponse(){
         return $this->_response;
     }
 
