@@ -41,8 +41,15 @@ class router extends \AltoRouter implements \hubert\interfaces\router {
         parent::map($method, $route, $target, $routeName);
     }  
     
-    public function getBasePath() {
-        return $this->basePath;
+    public function getBasePath($withHost = false) {
+        $url = "";
+        if ($withHost){
+            $request_uri = hubert()->request->getUri();
+                    
+            $url = $request_uri->getScheme().'://'.$request_uri->getHost().$url;
+        }
+        
+        return $url.$this->basePath;
     }
 }
 
